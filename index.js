@@ -48,6 +48,278 @@ let movies = [
   }
 ];
 
+// PAGE ROUTE FOR MOVIE RECOMMENDATIONS
+app.get("/recommendations", (req, res) => {
+  res.send(`
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Movie Recommendations</title>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+      <style>
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        body {
+          font-family: 'Inter', sans-serif;
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          min-height: 100vh;
+          padding: 2rem;
+        }
+
+        .container {
+          max-width: 1000px;
+          margin: 0 auto;
+        }
+
+        .header {
+          text-align: center;
+          color: white;
+          margin-bottom: 3rem;
+        }
+
+        .header h1 {
+          font-size: 2.5rem;
+          margin-bottom: 0.5rem;
+        }
+
+        .header p {
+          font-size: 1.1rem;
+          opacity: 0.9;
+        }
+
+        .movies-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+          gap: 2rem;
+          margin-bottom: 2rem;
+        }
+
+        .movie-card {
+          background: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(20px);
+          border-radius: 16px;
+          overflow: hidden;
+          box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+          transition: transform 0.3s ease, box-shadow 0.3s ease;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .movie-card:hover {
+          transform: translateY(-5px);
+          box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+        }
+
+        .movie-header {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          padding: 1.5rem;
+          color: white;
+        }
+
+        .movie-title {
+          font-size: 1.4rem;
+          font-weight: 700;
+          margin-bottom: 0.5rem;
+        }
+
+        .movie-genre {
+          display: inline-block;
+          background: rgba(255, 255, 255, 0.2);
+          padding: 0.3rem 0.8rem;
+          border-radius: 20px;
+          font-size: 0.85rem;
+          font-weight: 500;
+        }
+
+        .movie-body {
+          padding: 1.5rem;
+          flex: 1;
+          display: flex;
+          flex-direction: column;
+        }
+
+        .rating-section {
+          display: flex;
+          align-items: center;
+          gap: 0.5rem;
+          margin-bottom: 1rem;
+        }
+
+        .stars {
+          color: #ffc107;
+          font-size: 1rem;
+        }
+
+        .rating-value {
+          font-weight: 600;
+          color: #2d3748;
+        }
+
+        .recommendation {
+          margin-top: auto;
+          padding-top: 1rem;
+          border-top: 1px solid #e2e8f0;
+        }
+
+        .rec-label {
+          font-size: 0.85rem;
+          color: #a0aec0;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+          margin-bottom: 0.3rem;
+        }
+
+        .rec-value {
+          font-size: 1.1rem;
+          font-weight: 700;
+          color: #48bb78;
+        }
+
+        .actions {
+          display: flex;
+          gap: 1rem;
+          justify-content: center;
+          margin-top: 2rem;
+        }
+
+        .btn {
+          background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+          color: white;
+          border: none;
+          padding: 0.8rem 1.5rem;
+          border-radius: 12px;
+          cursor: pointer;
+          font-size: 1rem;
+          font-weight: 600;
+          text-decoration: none;
+          display: inline-flex;
+          align-items: center;
+          gap: 0.5rem;
+          transition: all 0.3s ease;
+        }
+
+        .btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn-secondary {
+          background: rgba(255, 255, 255, 0.2);
+        }
+
+        @media (max-width: 768px) {
+          .header h1 {
+            font-size: 2rem;
+          }
+
+          .movies-grid {
+            grid-template-columns: 1fr;
+          }
+        }
+      </style>
+    </head>
+    <body>
+      <div class="container">
+        <div class="header">
+          <h1><i class="fas fa-film"></i> Movie Recommendations</h1>
+          <p>Curated list of must-watch movies</p>
+        </div>
+
+        <div class="movies-grid">
+          <div class="movie-card">
+            <div class="movie-header">
+              <div class="movie-title">Inception</div>
+              <span class="movie-genre">Sci-Fi</span>
+            </div>
+            <div class="movie-body">
+              <div class="rating-section">
+                <span class="stars">★★★★★</span>
+                <span class="rating-value">4.8/5</span>
+              </div>
+              <p style="color: #718096; font-size: 0.95rem; margin-bottom: 1rem;">A mind-bending sci-fi masterpiece that explores dreams and reality.</p>
+              <div class="recommendation">
+                <div class="rec-label">Recommendation</div>
+                <div class="rec-value">✓ Yes</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="movie-card">
+            <div class="movie-header">
+              <div class="movie-title">The Dark Knight</div>
+              <span class="movie-genre">Action</span>
+            </div>
+            <div class="movie-body">
+              <div class="rating-section">
+                <span class="stars">★★★★★</span>
+                <span class="rating-value">4.9/5</span>
+              </div>
+              <p style="color: #718096; font-size: 0.95rem; margin-bottom: 1rem;">An epic superhero film with outstanding storytelling and action sequences.</p>
+              <div class="recommendation">
+                <div class="rec-label">Recommendation</div>
+                <div class="rec-value">✓ Yes</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="movie-card">
+            <div class="movie-header">
+              <div class="movie-title">Pulp Fiction</div>
+              <span class="movie-genre">Crime</span>
+            </div>
+            <div class="movie-body">
+              <div class="rating-section">
+                <span class="stars">★★★★☆</span>
+                <span class="rating-value">4.7/5</span>
+              </div>
+              <p style="color: #718096; font-size: 0.95rem; margin-bottom: 1rem;">A classic with brilliant dialogue and non-linear storytelling.</p>
+              <div class="recommendation">
+                <div class="rec-label">Recommendation</div>
+                <div class="rec-value">✓ Yes</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="movie-card">
+            <div class="movie-header">
+              <div class="movie-title">Avengers: Endgame</div>
+              <span class="movie-genre">Action</span>
+            </div>
+            <div class="movie-body">
+              <div class="rating-section">
+                <span class="stars">★★★★☆</span>
+                <span class="rating-value">4.6/5</span>
+              </div>
+              <p style="color: #718096; font-size: 0.95rem; margin-bottom: 1rem;">The epic conclusion to the Marvel Cinematic Universe saga.</p>
+              <div class="recommendation">
+                <div class="rec-label">Recommendation</div>
+                <div class="rec-value">✓ Yes</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="actions">
+          <a href="/" class="btn">
+            <i class="fas fa-home"></i> Home
+          </a>
+          <a href="/joke" class="btn btn-secondary">
+            <i class="fas fa-laugh"></i> Get Joke
+          </a>
+        </div>
+      </div>
+    </body>
+    </html>
+  `);
+});
+
 // API ENDPOINTS FOR MOVIE RECOMMENDATIONS
 
 // GET /movies - Retrieve all movies with optional rating filter
@@ -675,12 +947,13 @@ app.get("/", (req, res) => {
 
         <p class="description">
           This server provides various features including joke generation, student profile management,
-          and contact information. Built with Node.js and Express for learning purposes.
+          movie recommendations, and contact information. Built with Node.js and Express for learning purposes.
         </p>
 
         <div class="features">
           <div class="feature">🎭 Generate random jokes with personalized responses</div>
           <div class="feature">👤 View student profile and academic information</div>
+          <div class="feature">🎬 Explore curated movie recommendations</div>
           <div class="feature">📧 Contact information and details</div>
           <div class="feature">🚀 Modern, responsive web design</div>
         </div>
@@ -691,6 +964,9 @@ app.get("/", (req, res) => {
           </a>
           <a href="/profile" class="btn btn-secondary">
             <i class="fas fa-user"></i> Profile
+          </a>
+          <a href="/recommendations" class="btn btn-secondary">
+            <i class="fas fa-film"></i> Movies
           </a>
         </div>
 
@@ -1072,8 +1348,142 @@ app.get("/profile", (req, res) => {
     year: "SE"
   });
 });
-app.get("/joke", async (req, res) => {
+// GET /joke - Show name input form
+app.get("/joke", (req, res) => {
+  res.send(`
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Joke Generator - Enter Your Name</title>
+      <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+      <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+      <style>
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+        
+        body {
+          font-family: 'Inter', sans-serif;
+          background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+          min-height: 100vh;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          padding: 2rem;
+        }
+        
+        .form-card {
+          background: rgba(255, 255, 255, 0.95);
+          backdrop-filter: blur(20px);
+          padding: 3rem;
+          border-radius: 24px;
+          max-width: 500px;
+          width: 100%;
+          box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+          border: 1px solid rgba(255,255,255,0.2);
+          text-align: center;
+        }
+        
+        .form-icon {
+          font-size: 4rem;
+          color: #ff758c;
+          margin-bottom: 1rem;
+        }
+        
+        h1 {
+          font-size: 2.2rem;
+          font-weight: 700;
+          color: #1a202c;
+          margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+          font-size: 1rem;
+          color: #718096;
+          margin-bottom: 2rem;
+        }
+        
+        form {
+          display: flex;
+          flex-direction: column;
+          gap: 1.5rem;
+        }
+        
+        input {
+          padding: 1rem;
+          border: 2px solid #e2e8f0;
+          border-radius: 12px;
+          font-size: 1rem;
+          font-family: inherit;
+          transition: all 0.3s ease;
+        }
+        
+        input:focus {
+          outline: none;
+          border-color: #ff758c;
+          box-shadow: 0 0 0 3px rgba(255, 117, 140, 0.1);
+        }
+        
+        button {
+          background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
+          color: white;
+          border: none;
+          padding: 1rem;
+          border-radius: 12px;
+          font-size: 1.1rem;
+          font-weight: 600;
+          cursor: pointer;
+          transition: all 0.3s ease;
+        }
+        
+        button:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 25px rgba(255, 117, 140, 0.3);
+        }
+        
+        @media (max-width: 480px) {
+          .form-card {
+            padding: 2rem;
+          }
+          h1 {
+            font-size: 1.8rem;
+          }
+        }
+      </style>
+    </head>
+    <body>
+      <div class="form-card">
+        <div class="form-icon">
+          <i class="fas fa-laugh-beam"></i>
+        </div>
+        
+        <h1>Joke Generator</h1>
+        <p class="subtitle">Enter your name to get a personalized joke!</p>
+        
+        <form action="/generate-joke" method="POST">
+          <input type="text" name="userName" placeholder="Enter your name" required autofocus>
+          <button type="submit">
+            <i class="fas fa-redo"></i> Get Joke
+          </button>
+        </form>
+        
+        <div style="margin-top: 2rem; padding-top: 2rem; border-top: 1px solid #e2e8f0;">
+          <a href="/" style="color: #ff758c; text-decoration: none; font-weight: 500;">← Back to Home</a>
+        </div>
+      </div>
+    </body>
+    </html>
+  `);
+});
+
+// POST /generate-joke - Process form and show personalized joke
+app.post("/generate-joke", async (req, res) => {
   try {
+    const userName = req.body.userName || "Friend";
     const response = await axios.get("https://v2.jokeapi.dev/joke/Programming,Miscellaneous?blacklistFlags=nsfw,religious,political,racist,sexist,explicit");
 
     const jokeData = response.data;
@@ -1093,7 +1503,7 @@ app.get("/joke", async (req, res) => {
       <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Random Joke - Student Server</title>
+        <title>Your Joke - Student Server</title>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
         <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
         <style>
@@ -1193,27 +1603,11 @@ app.get("/joke", async (req, res) => {
             position: relative;
           }
 
-          .joke-content::before {
-            content: '"';
-            position: absolute;
-            top: -10px;
-            left: 20px;
-            font-size: 4rem;
-            color: #ff758c;
-            opacity: 0.3;
-            font-family: serif;
-          }
-
           .joke-text {
             font-size: 1.2rem;
             color: #2d3748;
             line-height: 1.6;
             font-weight: 500;
-          }
-
-          .emoji {
-            font-size: 1.5rem;
-            margin: 0 0.2rem;
           }
 
           .actions {
@@ -1307,19 +1701,17 @@ app.get("/joke", async (req, res) => {
             <i class="fas fa-laugh-squint"></i>
           </div>
 
-          <h1>Random Joke</h1>
-          <p class="greeting">Here's a joke for you! <i class="fas fa-smile-beam" style="color: #ff758c;"></i></p>
+          <h1>Your Joke</h1>
+          <p class="greeting">Hello \${userName}! <i class="fas fa-wave" style="color: #ff758c;"></i></p>
 
           <div class="joke-content">
-            <p class="joke-text">${joke}</p>
+            <p class="joke-text">\${joke}</p>
           </div>
 
           <div class="actions">
-            <form action="/joke" method="GET" style="display: inline;">
-              <button type="submit" class="btn">
-                <i class="fas fa-redo"></i> Another One
-              </button>
-            </form>
+            <a href="/joke" class="btn">
+              <i class="fas fa-redo"></i> Another Joke
+            </a>
             <a href="/" class="btn btn-secondary">
               <i class="fas fa-home"></i> Home
             </a>
@@ -1333,271 +1725,6 @@ app.get("/joke", async (req, res) => {
       </html>
     `);
 
-  } catch (error) {
-    res.send("Error fetching joke");
-  }
-});
-app.post("/joke", async (req, res) => {
-  try {
-    const name = req.body.name;
-
-    const response = await axios.get("https://v2.jokeapi.dev/joke/Any");
-
-    const jokeData = response.data;
-
-    let joke;
-
-    if (jokeData.type === "twopart") {
-      joke = jokeData.setup + " 😂 " + jokeData.delivery;
-    } else {
-      joke = jokeData.joke;
-    }
-
- res.send(`
-<!DOCTYPE html>
-<html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Your Joke - Student Server</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
-      min-height: 100vh;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      position: relative;
-      overflow-x: hidden;
-      padding: 2rem;
-    }
-
-    .bg-decoration {
-      position: absolute;
-      border-radius: 50%;
-      background: rgba(255,255,255,0.1);
-      animation: float 6s ease-in-out infinite;
-    }
-
-    .bg-decoration:nth-child(1) {
-      width: 100px;
-      height: 100px;
-      top: 15%;
-      left: 15%;
-    }
-
-    .bg-decoration:nth-child(2) {
-      width: 80px;
-      height: 80px;
-      top: 75%;
-      right: 20%;
-      animation-delay: 2s;
-    }
-
-    .bg-decoration:nth-child(3) {
-      width: 60px;
-      height: 60px;
-      bottom: 25%;
-      left: 25%;
-      animation-delay: 4s;
-    }
-
-    @keyframes float {
-      0%, 100% { transform: translateY(0px) rotate(0deg); }
-      50% { transform: translateY(-15px) rotate(180deg); }
-    }
-
-    .joke-card {
-      background: rgba(255, 255, 255, 0.95);
-      backdrop-filter: blur(20px);
-      padding: 3rem;
-      border-radius: 24px;
-      text-align: center;
-      max-width: 500px;
-      width: 100%;
-      box-shadow: 0 25px 50px rgba(0,0,0,0.15);
-      border: 1px solid rgba(255,255,255,0.2);
-      position: relative;
-      z-index: 1;
-    }
-
-    .joke-icon {
-      font-size: 4rem;
-      color: #ff758c;
-      margin-bottom: 1rem;
-    }
-
-    h1 {
-      font-size: 2.2rem;
-      font-weight: 700;
-      color: #1a202c;
-      margin-bottom: 0.5rem;
-    }
-
-    .greeting {
-      font-size: 1.1rem;
-      color: #718096;
-      margin-bottom: 2rem;
-      font-weight: 400;
-    }
-
-    .joke-content {
-      background: #f8fafc;
-      padding: 2rem;
-      border-radius: 16px;
-      margin: 2rem 0;
-      border-left: 4px solid #ff758c;
-      position: relative;
-    }
-
-    .joke-content::before {
-      content: '"';
-      position: absolute;
-      top: -10px;
-      left: 20px;
-      font-size: 4rem;
-      color: #ff758c;
-      opacity: 0.3;
-      font-family: serif;
-    }
-
-    .joke-text {
-      font-size: 1.2rem;
-      color: #2d3748;
-      line-height: 1.6;
-      font-weight: 500;
-    }
-
-    .emoji {
-      font-size: 1.5rem;
-      margin: 0 0.2rem;
-    }
-
-    .actions {
-      display: flex;
-      gap: 1rem;
-      justify-content: center;
-      flex-wrap: wrap;
-      margin-top: 2rem;
-    }
-
-    .btn {
-      background: linear-gradient(135deg, #ff758c 0%, #ff7eb3 100%);
-      color: white;
-      border: none;
-      padding: 0.8rem 1.5rem;
-      border-radius: 12px;
-      cursor: pointer;
-      font-size: 1rem;
-      font-weight: 600;
-      font-family: inherit;
-      text-decoration: none;
-      display: inline-flex;
-      align-items: center;
-      gap: 0.5rem;
-      transition: all 0.3s ease;
-      min-width: 140px;
-      justify-content: center;
-    }
-
-    .btn:hover {
-      transform: translateY(-2px);
-      box-shadow: 0 10px 25px rgba(255, 117, 140, 0.3);
-    }
-
-    .btn-secondary {
-      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    }
-
-    .btn-secondary:hover {
-      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
-    }
-
-    .footer {
-      margin-top: 2rem;
-      font-size: 0.9rem;
-      color: #a0aec0;
-    }
-
-    .footer a {
-      color: #ff758c;
-      text-decoration: none;
-      font-weight: 500;
-    }
-
-    .footer a:hover {
-      text-decoration: underline;
-    }
-
-    @media (max-width: 480px) {
-      .joke-card {
-        padding: 2rem;
-        margin: 1rem;
-      }
-
-      h1 {
-        font-size: 1.8rem;
-      }
-
-      .joke-content {
-        padding: 1.5rem;
-      }
-
-      .actions {
-        flex-direction: column;
-        align-items: center;
-      }
-
-      .btn {
-        width: 100%;
-      }
-    }
-  </style>
-</head>
-<body>
-  <div class="bg-decoration"></div>
-  <div class="bg-decoration"></div>
-  <div class="bg-decoration"></div>
-
-  <div class="joke-card">
-    <div class="joke-icon">
-      <i class="fas fa-laugh-squint"></i>
-    </div>
-
-    <h1>Your Joke</h1>
-    <p class="greeting">Hello ${name}! <i class="fas fa-wave" style="color: #ff758c;"></i></p>
-
-    <div class="joke-content">
-      <p class="joke-text">${joke}</p>
-    </div>
-
-    <div class="actions">
-      <form action="/" method="GET" style="display: inline;">
-        <button type="submit" class="btn">
-          <i class="fas fa-redo"></i> Another Joke
-        </button>
-      </form>
-      <a href="/profile" class="btn btn-secondary">
-        <i class="fas fa-user"></i> Profile
-      </a>
-    </div>
-
-    <div class="footer">
-      <p>Powered by <a href="https://v2.jokeapi.dev/" target="_blank">JokeAPI</a></p>
-    </div>
-  </div>
-</body>
-</html>
-`);
   } catch (error) {
     res.send("Error fetching joke");
   }
