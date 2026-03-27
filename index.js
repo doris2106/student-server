@@ -1,12 +1,19 @@
 import express from "express";
 import morgan from "morgan";
 import axios from "axios";
+import { fileURLToPath } from "url";
+import { dirname } from "path";
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
+
 const app = express();
 const port = 3000;
 app.use(morgan("combined"));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static("public"));
+app.set("views", __dirname + "/views");
 app.set("view engine", "ejs");
 
 // In-memory movie storage
