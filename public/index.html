@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Server - Joke Generator</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+      overflow-x: hidden;
+    }
+
+    /* Animated background elements */
+    .bg-element {
+      position: absolute;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.1);
+      animation: float 8s ease-in-out infinite;
+    }
+
+    .bg-element:nth-child(1) {
+      width: 120px;
+      height: 120px;
+      top: 10%;
+      left: 10%;
+      animation-delay: 0s;
+    }
+
+    .bg-element:nth-child(2) {
+      width: 80px;
+      height: 80px;
+      top: 70%;
+      right: 15%;
+      animation-delay: 2s;
+    }
+
+    .bg-element:nth-child(3) {
+      width: 100px;
+      height: 100px;
+      bottom: 20%;
+      left: 20%;
+      animation-delay: 4s;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-20px) rotate(180deg); }
+    }
+
+    .container {
+      background: rgba(255, 255, 255, 0.95);
+      backdrop-filter: blur(20px);
+      padding: 3rem;
+      border-radius: 24px;
+      text-align: center;
+      color: #2d3748;
+      max-width: 420px;
+      width: 90%;
+      box-shadow: 0 25px 50px rgba(0,0,0,0.15);
+      border: 1px solid rgba(255,255,255,0.2);
+      position: relative;
+      z-index: 1;
+    }
+
+    .logo {
+      font-size: 3rem;
+      margin-bottom: 1rem;
+      color: #667eea;
+    }
+
+    h1 {
+      font-size: 2.2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      color: #1a202c;
+    }
+
+    .subtitle {
+      font-size: 1.1rem;
+      color: #718096;
+      margin-bottom: 2rem;
+      font-weight: 400;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 1rem 1.2rem;
+      border: 2px solid #e2e8f0;
+      border-radius: 12px;
+      outline: none;
+      font-size: 1rem;
+      font-family: inherit;
+      transition: all 0.3s ease;
+      background: #f7fafc;
+    }
+
+    input:focus {
+      border-color: #667eea;
+      background: white;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    input::placeholder {
+      color: #a0aec0;
+    }
+
+    button {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 12px;
+      cursor: pointer;
+      font-size: 1.1rem;
+      font-weight: 600;
+      font-family: inherit;
+      transition: all 0.3s ease;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+
+    button:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 25px rgba(102, 126, 234, 0.3);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    button:hover::before {
+      left: 100%;
+    }
+
+    .footer {
+      margin-top: 2rem;
+      font-size: 0.9rem;
+      color: #a0aec0;
+    }
+
+    .footer a {
+      color: #667eea;
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .footer a:hover {
+      text-decoration: underline;
+    }
+
+    @media (max-width: 480px) {
+      .container {
+        padding: 2rem;
+        margin: 1rem;
+      }
+
+      h1 {
+        font-size: 1.8rem;
+      }
+
+      .subtitle {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <!-- Background decorative elements -->
+  <div class="bg-element"></div>
+  <div class="bg-element"></div>
+  <div class="bg-element"></div>
+
+  <div class="container">
+    <div class="logo">
+      <i class="fas fa-laugh-beam"></i>
+    </div>
+
+    <h1>Joke Generator</h1>
+    <p class="subtitle">Enter your name and let the fun begin!</p>
+
+    <form action="/joke" method="POST">
+      <div class="form-group">
+        <input type="text" name="name" placeholder="Enter your name" required>
+      </div>
+      <button type="submit">
+        <i class="fas fa-magic"></i> Generate Joke
+      </button>
+    </form>
+
+    <div class="footer">
+      <p><a href="/profile">View Profile</a> | <a href="/about">About</a> | <a href="/contact">Contact</a></p>
+    </div>
+  </div>
+
+</body>
+</html>
