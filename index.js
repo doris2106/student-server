@@ -1702,10 +1702,10 @@ app.post("/generate-joke", async (req, res) => {
           </div>
 
           <h1>Your Joke</h1>
-          <p class="greeting">Hello \${userName}! <i class="fas fa-wave" style="color: #ff758c;"></i></p>
+          <p class="greeting">Hello ${userName}! <i class="fas fa-wave" style="color: #ff758c;"></i></p>
 
           <div class="joke-content">
-            <p class="joke-text">\${joke}</p>
+            <p class="joke-text">${joke}</p>
           </div>
 
           <div class="actions">
