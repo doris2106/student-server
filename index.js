@@ -943,20 +943,6 @@ app.get("/", (req, res) => {
         </div>
 
         <h1>Welcome to Joke Generator</h1>
-        <p class="subtitle">A fun and interactive web application</p>
-
-        <p class="description">
-          This server provides various features including joke generation, student profile management,
-          movie recommendations, and contact information. Built with Node.js and Express for learning purposes.
-        </p>
-
-        <div class="features">
-          <div class="feature">🎭 Generate random jokes with personalized responses</div>
-          <div class="feature">👤 View student profile and academic information</div>
-          <div class="feature">🎬 Explore curated movie recommendations</div>
-          <div class="feature">📧 Contact information and details</div>
-          <div class="feature">🚀 Modern, responsive web design</div>
-        </div>
 
         <div class="actions">
           <a href="/joke" class="btn">
